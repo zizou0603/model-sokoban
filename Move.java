@@ -1,43 +1,24 @@
-package model;
 
 import java.util.*;
 
 public class Move {
 
     private Direction direction;
-    private Piece from;
-    private Piece to;
-    private Element element;
-    private Move next;
+    private TypeMouvement type;
 
-    public Move(Direction d, Element e, Piece from, Piece to) {
+    public Move(Direction d,TypeMouvement type) {
         this.direction = d;
-        this.element = e;
-        this.from = from;
-        this.to = to;
+        this.type = type;
     }
 
-    public void setNext(Move m) {
-        this.next = m;
+    public Direction getDirection(){
+        return this.direction;
     }
-
-    public void apply() {
-    
-    	System.out.println("Move: " + element.getClass().getSimpleName());
-    	
-        from.setOccupant(null);
-        to.setOccupant(element);
-        element.setPiece(to);
-
-        if (next != null) next.apply();
+    public TypeMouvement getType(){
+        return type;
     }
-
-    public void rollback() {
-        if (next != null) next.rollback();
-
-        to.setOccupant(null);
-        from.setOccupant(element);
-        element.setPiece(from);
+    public void setType(TypeMouvement t){
+        this.type= t;
     }
 
 }

@@ -1,34 +1,40 @@
-package model;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
+public class Plateau {
 
-public class Plateau{
+    private Map<Location, Piece> grille;
+    private Location playerPosition;
 
-    private int id;
-    private Map<Location, Piece> grille = new HashMap<>();
-    private Piece pieceConteneur;
-
-    public Plateau(int id){
-        this.id = id;
+    public Plateau() {
+        this.grille = new HashMap<>();
     }
 
-    public void ajouterPiece(Piece p){
-        grille.put(p.getLocation(), p);
+    public void ajouterPiece(Location loc, Piece piece) {
+        this.grille.put(loc, piece);
+        piece.setLocation(loc);
     }
 
-    public Piece getPieceAt(Location loc){
-        return grille.get(loc);
+    public Piece getPieceAt(Location loc) {
+        return this.grille.get(loc);
     }
 
-    public Collection<Piece> getPieces(){
-        return grille.values();
+    //changement : retournait getPieceAt(playerPosition) soit une Piece
+    public Location getPlayerPosition() {
+        return this.playerPosition;
     }
 
-    public void setPieceConteneur(Piece p){
-        this.pieceConteneur = p;
+    public void setPlayerPosition(Location l) {
+        this.playerPosition = l;
     }
 
-    public Piece getPieceConteneur(){
-        return pieceConteneur;
+    public Location getLocationOf(Piece piece) {
+        if (piece == null) throw new NullPointerException("piece is null");
+        return piece.getLocation();
+    }
+
+    public Map<Location, Piece> getGrille() {
+        return Collections.unmodifiableMap(grille);
     }
 }

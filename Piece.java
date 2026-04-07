@@ -1,43 +1,44 @@
-package model;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
+public class Piece {
 
-public class Piece{
-
-    private Location location;
-    private Plateau plateauParent;
-    private TypeFixe type;
+    private Map<Direction, Piece> voisins;
     private Element occupant;
-    private Map<Direction, Piece> voisins = new HashMap<>();
+    private Location location;
 
-    public Piece(Location loc, Plateau p, TypeFixe type){
-        this.location = loc;
-        this.plateauParent = p;
-        this.type = type;
+    public Piece() {
+        this.voisins = new HashMap<>();
+        this.occupant = null;
     }
 
-    public boolean estLibre(){
-        return type != TypeFixe.MUR && occupant == null;
-    }
-
-    public void setVoisin(Direction d, Piece p, Direction oppose){
-        voisins.put(d, p);
-        p.voisins.put(oppose, this);
-    }
-
-    public Piece getVoisin(Direction d){
-        return voisins.get(d);
-    }
-
-    public Location getLocation(){ return location; }
-
-    public Element getOccupant(){ return occupant; }
-
-    public void setOccupant(Element e){
+    public Piece(Element e) {
+        this.voisins = new HashMap<>();
         this.occupant = e;
     }
 
-    public Plateau getPlateauParent(){ return plateauParent; }
+    public void setVoisin(Direction dir, Piece voisine) {
+        this.voisins.put(dir, voisine);
+    }
 
-    public TypeFixe getType(){ return type; }
+    public Piece getVoisin(Direction dir) {
+        return this.voisins.get(dir);
+    }
+
+    public void setOccupant(Element obj) {
+        this.occupant = obj;
+    }
+
+    //changement : occupant peut être null (case vide) , NullPointerException sinon
+    public boolean estLibre() {
+        return occupant == null || !occupant.isSolide();
+    }
+
+    public Element getOccupant() {
+        return occupant;
+    }
+
+    public void setLocation(Location l) { this.location = l; }
+
+    public Location getLocation() { return this.location; }
 }
